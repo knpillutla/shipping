@@ -44,13 +44,13 @@
 	<dependencies>
 		<dependency>
 		    <groupId>com.example.wms</groupId>
-		    <artifactId>shipping-interfaces</artifactId>
-		    <version>${version}</version>
+		    <artifactId>shipping-idd</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 		    <groupId>com.example.wms</groupId>
-		    <artifactId>orderplanner-interfaces</artifactId>
+		    <artifactId>orderplanner-idd</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>	
 		<dependency>
