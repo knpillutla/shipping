@@ -13,5 +13,5 @@ public interface ShippingStreams {
     public SubscribableChannel outboundPick();
 
     @Output(SHIP_OUTPUT)
-    public MessageChannel outboundOrders();
+    public MessageChannel outboundShip();
 }

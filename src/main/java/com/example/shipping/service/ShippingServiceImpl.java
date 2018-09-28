@@ -20,6 +20,7 @@ import com.example.shipping.dto.events.ShipUpdateFailedEvent;
 import com.example.shipping.dto.requests.ShipCreationRequestDTO;
 import com.example.shipping.dto.requests.ShipUpdateRequestDTO;
 import com.example.shipping.dto.responses.ShipDTO;
+import com.example.util.service.EventPublisher;
 
 import lombok.extern.slf4j.Slf4j;
 

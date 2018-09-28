@@ -1,15 +1,10 @@
 package com.example.order.endpoint.listener;
 
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.shipping.dto.requests.ShipCreationRequestDTO;
-import com.example.shipping.service.EventPublisher;
 import com.example.shipping.streams.ShippingStreams;
+import com.example.util.service.EventPublisher;
 
 import lombok.extern.slf4j.Slf4j;
 
