@@ -36,7 +36,7 @@ public class ShippingListener {
 		}
 	}
 
-	@StreamListener(target=ShippingStreams.ORDERS_OUTPUT, condition = "headers['eventName']=='SmallStoreOrderPlannedEvent'")
+/*	@StreamListener(target=ShippingStreams.ORDERS_OUTPUT, condition = "headers['eventName']=='SmallStoreOrderPlannedEvent'")
 	public void handleSmallStoreOrderPlannedEvent(SmallStoreOrderPlannedEvent smallStoreOrderPlannedEvent) { // OrderCreationRequestDTO
 																					// orderCreationRequestDTO) {
 		log.info("Received SmallStoreOrderPlannedEvent Msg: {}" + ": at :" + new java.util.Date(), smallStoreOrderPlannedEvent);
@@ -52,6 +52,6 @@ public class ShippingListener {
 			log.error("Error Completing SmallStoreOrderPlannedEvent for : " + smallStoreOrderPlannedEvent + ": at :"
 					+ new java.util.Date() + " : total time:" + (endTime - startTime) / 1000.00 + " secs", e);
 		}
-	}
+	}*/
 
 }

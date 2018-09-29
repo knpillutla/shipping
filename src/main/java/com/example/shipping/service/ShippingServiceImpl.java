@@ -104,7 +104,7 @@ public class ShippingServiceImpl implements ShippingService {
 			Date createdDttm = new java.util.Date();
 			Ship savedShipObj = shipDAO.save(ship);
 			shipResponseDTO = shipDTOConverter.getShipDTO(savedShipObj);
-			eventPublisher.publish(new ShipCreatedEvent(shipResponseDTO));
+			//eventPublisher.publish(new ShipCreatedEvent(shipResponseDTO));
 		} catch (Exception ex) {
 			log.error("Created Ship Error:" + ex.getMessage(), ex);
 			eventPublisher.publish(
