@@ -41,6 +41,7 @@ CREATE TABLE SHIP
     UPDATED_DTTM  timestamp not null default NOW(),
     CREATED_BY character varying(25),
     UPDATED_BY character varying(25),
+    VERSION INTEGER,
     unique (BUS_NAME, LOCN_NBR,COMPANY,DIVISION,BUS_UNIT,ORDER_NBR)
 );
 
@@ -65,7 +66,8 @@ CREATE TABLE SHIP_LINES
     CREATED_DTTM  timestamp not null default NOW(),
     UPDATED_DTTM  timestamp not null default NOW(),
     CREATED_BY character varying(25),
-    UPDATED_BY character varying(25)
+    UPDATED_BY character varying(25),
+    VERSION INTEGER
 );
 
 

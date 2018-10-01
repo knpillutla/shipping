@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -146,6 +147,10 @@ public class Ship  implements Serializable{
  	@Column(name="UPDATED_BY")
 	String updatedBy;
 
+	@Version
+ 	@Column(name="VERSION")
+	Integer version; 	
+    
     public void addShipLine(ShipLine shipLine) {
     	shipLines.add(shipLine);
     	//orderLine.setOrder(this);
