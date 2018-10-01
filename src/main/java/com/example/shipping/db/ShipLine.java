@@ -1,7 +1,7 @@
 package com.example.shipping.db;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -82,11 +80,11 @@ public class ShipLine  implements Serializable{
 
     @CreatedDate
 	@Column(name="CREATED_DTTM", nullable = false, updatable = false)
-    Date createdDttm;
+    LocalDateTime createdDttm;
 	
     @Column(name = "UPDATED_DTTM", nullable = false)
     @LastModifiedDate
-	Date updatedDttm;
+	LocalDateTime updatedDttm;
 	
 	@Column(name="CREATED_BY")
 	String createdBy;

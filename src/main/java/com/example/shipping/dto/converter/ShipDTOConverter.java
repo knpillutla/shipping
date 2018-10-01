@@ -1,7 +1,7 @@
 package com.example.shipping.dto.converter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -83,7 +83,7 @@ public class ShipDTOConverter {
 		shipEntity.setShipByDttm(shipCreationRequestDTO.getShipByDttm());
 		shipEntity.setDeliveryType(shipCreationRequestDTO.getDeliveryType());
 		shipEntity.setOrderId(shipCreationRequestDTO.getOrderId());
-		Date createdDttm = new java.util.Date();
+		LocalDateTime createdDttm = LocalDateTime.now();
 		List<ShipLine> shipLineList = new ArrayList();
 		for (ShipLineCreationRequestDTO shipLineCreationRequestDTO : shipCreationRequestDTO.getShipLines()) {
 			ShipLine shipLineEntity = getShipLineEntity(shipLineCreationRequestDTO, shipCreationRequestDTO);

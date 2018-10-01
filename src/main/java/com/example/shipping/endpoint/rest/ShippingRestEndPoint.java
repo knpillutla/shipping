@@ -1,6 +1,7 @@
 package com.example.shipping.endpoint.rest;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,7 +67,7 @@ public class ShippingRestEndPoint {
 	@PutMapping("/{busName}/{locnNbr}/shipping/smallstore")
 	public ResponseEntity createShipForSmallStore(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr, @RequestBody ShipCreationRequestDTO shipCreationReq) throws IOException {
 		long startTime = System.currentTimeMillis();
-		log.info("Received Ship Create request for : " + shipCreationReq.toString() + ": at :" + new java.util.Date());
+		log.info("Received Ship Create request for : " + shipCreationReq.toString() + ": at :" + LocalDateTime.now());
 		ResponseEntity resEntity = null;
 		try {
 			resEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(shipService.createShipForSmallStore(shipCreationReq));
@@ -75,13 +76,13 @@ public class ShippingRestEndPoint {
 			resEntity = ResponseEntity.badRequest().body(new ShipCreationFailedEvent(shipCreationReq, "Error Occured while processing Inventory Create request:" + e.getMessage()));
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("Completed Ship Create request for : " + shipCreationReq.toString() + ": at :" + new java.util.Date() + " : total time:" + (endTime-startTime)/1000.00 + " secs");
+		log.info("Completed Ship Create request for : " + shipCreationReq.toString() + ": at :" + LocalDateTime.now() + " : total time:" + (endTime-startTime)/1000.00 + " secs");
 		return resEntity;
 	}	
 	@PutMapping("/{busName}/{locnNbr}/shipping/warehouse")
 	public ResponseEntity createShipForWarehouse(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr, @RequestBody ShipCreationRequestDTO shipCreationReq) throws IOException {
 		long startTime = System.currentTimeMillis();
-		log.info("Received Ship Create request for : " + shipCreationReq.toString() + ": at :" + new java.util.Date());
+		log.info("Received Ship Create request for : " + shipCreationReq.toString() + ": at :" + LocalDateTime.now());
 		ResponseEntity resEntity = null;
 		try {
 			resEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(shipService.createShipForWarehouse(shipCreationReq));
@@ -90,7 +91,7 @@ public class ShippingRestEndPoint {
 			resEntity = ResponseEntity.badRequest().body(new ShipCreationFailedEvent(shipCreationReq, "Error Occured while processing Inventory Create request:" + e.getMessage()));
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("Completed Ship Create request for : " + shipCreationReq.toString() + ": at :" + new java.util.Date() + " : total time:" + (endTime-startTime)/1000.00 + " secs");
+		log.info("Completed Ship Create request for : " + shipCreationReq.toString() + ": at :" + LocalDateTime.now() + " : total time:" + (endTime-startTime)/1000.00 + " secs");
 		return resEntity;
 	}	
 

@@ -1,6 +1,6 @@
 package com.example.shipping.service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -13,7 +13,6 @@ import com.example.shipping.db.ShipLine;
 import com.example.shipping.db.ShipLineRepository;
 import com.example.shipping.db.ShipRepository;
 import com.example.shipping.dto.converter.ShipDTOConverter;
-import com.example.shipping.dto.events.ShipCreatedEvent;
 import com.example.shipping.dto.events.ShipCreationFailedEvent;
 import com.example.shipping.dto.events.ShipRoutingCompletedEvent;
 import com.example.shipping.dto.events.ShipUpdateFailedEvent;
@@ -101,7 +100,7 @@ public class ShippingServiceImpl implements ShippingService {
 		try {
 			Ship ship = shipDTOConverter.getShipEntity(shipCreationRequestDTO);
 			ship.setStatCode(ShipStatus.CREATED.getStatCode());
-			Date createdDttm = new java.util.Date();
+			LocalDateTime createdDttm = LocalDateTime.now();
 			Ship savedShipObj = shipDAO.save(ship);
 			shipResponseDTO = shipDTOConverter.getShipDTO(savedShipObj);
 			//eventPublisher.publish(new ShipCreatedEvent(shipResponseDTO));

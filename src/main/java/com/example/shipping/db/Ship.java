@@ -1,8 +1,8 @@
 package com.example.shipping.db;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -69,13 +67,13 @@ public class Ship  implements Serializable{
 	Integer statCode;
 
 	@Column(name="ORDER_DTTM")
-	Date orderDttm;
+	LocalDateTime orderDttm;
 
 	@Column(name="SHIP_BY_DTTM")
-	Date shipByDttm;
+	LocalDateTime shipByDttm;
 
 	@Column(name="EXPECTED_DELIVERY_DTTM")
-	Date expectedDeliveryDttm;
+	LocalDateTime expectedDeliveryDttm;
 
 	@Column(name="DELIVERY_TYPE")
 	String deliveryType;
@@ -136,11 +134,11 @@ public class Ship  implements Serializable{
 
     @CreatedDate
 	@Column(name="CREATED_DTTM", nullable = false, updatable = false)
-    Date createdDttm;
+    LocalDateTime createdDttm;
 	
     @Column(name = "UPDATED_DTTM", nullable = false)
     @LastModifiedDate
-	Date updatedDttm;
+	LocalDateTime updatedDttm;
 	
 	@Column(name="CREATED_BY")
 	String createdBy;
