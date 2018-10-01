@@ -35,7 +35,6 @@ public class ShipDTOConverter {
 		shipDTO.setExpectedDeliveryDttm(shipEntity.getExpectedDeliveryDttm());
 		shipDTO.setOrderDttm(shipEntity.getOrderDttm());
 		shipDTO.setUpdatedBy(shipEntity.getUpdatedBy());
-		shipDTO.setUpdatedDttm(shipEntity.getUpdatedDttm());
 		shipDTO.setShipCarrier(shipEntity.getShipCarrier());
 		shipDTO.setShipCarrierService(shipEntity.getShipCarrierService());
 		shipDTO.setShipCost(shipEntity.getShipCost());
@@ -58,7 +57,6 @@ public class ShipDTOConverter {
 		shipLineDTO.setRefField1(shipLine.getRefField1());
 		shipLineDTO.setRefField2(shipLine.getRefField2());
 		shipLineDTO.setUpdatedBy(shipLine.getUpdatedBy());
-		shipLineDTO.setUpdatedDttm(shipLine.getUpdatedDttm());
 		return shipLineDTO;
 	}
 
@@ -86,15 +84,11 @@ public class ShipDTOConverter {
 		shipEntity.setDeliveryType(shipCreationRequestDTO.getDeliveryType());
 		shipEntity.setOrderId(shipCreationRequestDTO.getOrderId());
 		Date createdDttm = new java.util.Date();
-		shipEntity.setCreatedDttm(createdDttm);
-		shipEntity.setUpdatedDttm(createdDttm);
 		List<ShipLine> shipLineList = new ArrayList();
 		for (ShipLineCreationRequestDTO shipLineCreationRequestDTO : shipCreationRequestDTO.getShipLines()) {
 			ShipLine shipLineEntity = getShipLineEntity(shipLineCreationRequestDTO, shipCreationRequestDTO);
 			shipEntity.addShipLine(shipLineEntity);
 			shipLineEntity.setShip(shipEntity);
-			shipLineEntity.setCreatedDttm(createdDttm);
-			shipLineEntity.setUpdatedDttm(createdDttm);
 		}
 		return shipEntity;
 	}
