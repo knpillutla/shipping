@@ -32,16 +32,23 @@ import lombok.extern.slf4j.Slf4j;
 @RefreshScope
 @Slf4j
 public class ShippingRestEndPoint {
-
-    @Value("${message: Shippin g Service - Config Server is not working..please check}")
-    private String msg;
-    
     @Autowired
     ShippingService shipService;
 	
-	@GetMapping("/")
-	public ResponseEntity hello() throws Exception {
-		return ResponseEntity.ok(msg);
+    @Value("${wms.service.health.msg: Shipping Service - Config Server is not working..please check}")
+    private String healthMsg;
+    
+    @Value("${wms.service.ready.msg: Shipping Service - Not ready yet}")
+    private String readyMsg;
+
+	@GetMapping("/ready")
+	public ResponseEntity ready() throws Exception {
+		return ResponseEntity.ok(readyMsg);
+	}
+	
+	@GetMapping("/health")
+	public ResponseEntity health() throws Exception {
+		return ResponseEntity.ok(healthMsg);
 	}
 	
 	@GetMapping("/{busName}/{locnNbr}/shipping/{id}")
