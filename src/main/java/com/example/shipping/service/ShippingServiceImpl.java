@@ -100,7 +100,6 @@ public class ShippingServiceImpl implements ShippingService {
 		try {
 			Ship ship = shipDTOConverter.getShipEntity(shipCreationRequestDTO);
 			ship.setStatCode(ShipStatus.CREATED.getStatCode());
-			LocalDateTime createdDttm = LocalDateTime.now();
 			Ship savedShipObj = shipDAO.save(ship);
 			shipResponseDTO = shipDTOConverter.getShipDTO(savedShipObj);
 			//eventPublisher.publish(new ShipCreatedEvent(shipResponseDTO));

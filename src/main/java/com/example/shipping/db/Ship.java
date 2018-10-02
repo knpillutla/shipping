@@ -57,11 +57,11 @@ public class Ship  implements Serializable{
 	@Column(name="PACKAGE_NBR")
 	String packageNbr;
 
-	@Column(name="ORDER_NBR")
-	String orderNbr;
-
 	@Column(name="ORDER_ID")
 	Long orderId;
+
+	@Column(name="ORDER_NBR")
+	String orderNbr;
 
 	@Column(name="STAT_CODE")
 	Integer statCode;
