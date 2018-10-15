@@ -1,4 +1,4 @@
-package com.example.shipping.streams;
+package com.threedsoft.shipping.streams;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;

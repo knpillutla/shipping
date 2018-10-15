@@ -1,4 +1,4 @@
-package com.example.shipping;
+package com.threedsoft.shipping;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;

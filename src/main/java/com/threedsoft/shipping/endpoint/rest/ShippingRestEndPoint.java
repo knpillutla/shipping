@@ -1,4 +1,4 @@
-package com.example.shipping.endpoint.rest;
+package com.threedsoft.shipping.endpoint.rest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.shipping.dto.events.ShipCreationFailedEvent;
-import com.example.shipping.dto.events.ShipUpdateFailedEvent;
-import com.example.shipping.dto.requests.ShipCreationRequestDTO;
-import com.example.shipping.dto.requests.ShipUpdateRequestDTO;
-import com.example.shipping.service.ShippingService;
+import com.threedsoft.shipping.dto.events.ShipCreationFailedEvent;
+import com.threedsoft.shipping.dto.events.ShipUpdateFailedEvent;
+import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipUpdateRequestDTO;
+import com.threedsoft.shipping.service.ShippingService;
+import com.threedsoft.shipping.util.ShippingConstants;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +68,7 @@ public class ShippingRestEndPoint {
 			return ResponseEntity.ok(shipService.updateShip(shipUpdateReq));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.badRequest().body(new ShipUpdateFailedEvent(shipUpdateReq, "Error Occured while processing request:" + e.getMessage()));
+			return ResponseEntity.badRequest().body(new ShipUpdateFailedEvent(shipUpdateReq, ShippingConstants.SHIPPING_SERVICE_NAME,"Error Occured while processing request:" + e.getMessage()));
 		}
 	}	
 
@@ -80,7 +81,7 @@ public class ShippingRestEndPoint {
 			resEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(shipService.createShipForSmallStore(shipCreationReq));
 		} catch (Exception e) {
 			e.printStackTrace();
-			resEntity = ResponseEntity.badRequest().body(new ShipCreationFailedEvent(shipCreationReq, "Error Occured while processing Inventory Create request:" + e.getMessage()));
+			resEntity = ResponseEntity.badRequest().body(new ShipCreationFailedEvent(shipCreationReq, ShippingConstants.SHIPPING_SERVICE_NAME,"Error Occured while processing Inventory Create request:" + e.getMessage()));
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("Completed Ship Create request for : " + shipCreationReq.toString() + ": at :" + LocalDateTime.now() + " : total time:" + (endTime-startTime)/1000.00 + " secs");
@@ -95,7 +96,7 @@ public class ShippingRestEndPoint {
 			resEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(shipService.createShipForWarehouse(shipCreationReq));
 		} catch (Exception e) {
 			e.printStackTrace();
-			resEntity = ResponseEntity.badRequest().body(new ShipCreationFailedEvent(shipCreationReq, "Error Occured while processing Inventory Create request:" + e.getMessage()));
+			resEntity = ResponseEntity.badRequest().body(new ShipCreationFailedEvent(shipCreationReq, ShippingConstants.SHIPPING_SERVICE_NAME,"Error Occured while processing Inventory Create request:" + e.getMessage()));
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("Completed Ship Create request for : " + shipCreationReq.toString() + ": at :" + LocalDateTime.now() + " : total time:" + (endTime-startTime)/1000.00 + " secs");

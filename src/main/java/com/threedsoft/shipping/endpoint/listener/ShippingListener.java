@@ -1,4 +1,4 @@
-package com.example.shipping.endpoint.listener;
+package com.threedsoft.shipping.endpoint.listener;
 
 import java.time.LocalDateTime;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 
-import com.example.order.dto.events.OrderPlannedEvent;
-import com.example.shipping.dto.converter.OrderToShipConverter;
-import com.example.shipping.service.ShippingService;
-import com.example.shipping.streams.ShippingStreams;
+import com.threedsoft.order.dto.events.OrderPlannedEvent;
+import com.threedsoft.shipping.dto.converter.OrderToShipConverter;
+import com.threedsoft.shipping.service.ShippingService;
+import com.threedsoft.shipping.streams.ShippingStreams;
 
 import lombok.extern.slf4j.Slf4j;
 

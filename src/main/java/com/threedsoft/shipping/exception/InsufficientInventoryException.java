@@ -1,4 +1,4 @@
-package com.example.shipping.exception;
+package com.threedsoft.shipping.exception;
 
 public class InsufficientInventoryException extends Exception{
 

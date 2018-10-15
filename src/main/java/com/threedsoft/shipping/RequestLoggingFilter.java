@@ -1,4 +1,4 @@
-package com.example.shipping;
+package com.threedsoft.shipping;
 
 import static net.logstash.logback.marker.Markers.appendEntries;
 

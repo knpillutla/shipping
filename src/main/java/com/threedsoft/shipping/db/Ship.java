@@ -1,4 +1,4 @@
-package com.example.shipping.db;
+package com.threedsoft.shipping.db;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

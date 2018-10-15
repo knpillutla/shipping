@@ -1,27 +1,29 @@
-package com.example.shipping.dto.converter;
+package com.threedsoft.shipping.dto.converter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.order.dto.events.OrderPlannedEvent;
-import com.example.order.dto.events.SmallStoreOrderPlannedEvent;
-import com.example.order.dto.responses.OrderDTO;
-import com.example.order.dto.responses.OrderLineDTO;
-import com.example.shipping.dto.requests.ShipCreationRequestDTO;
-import com.example.shipping.dto.requests.ShipLineCreationRequestDTO;
+import com.threedsoft.order.dto.events.OrderPlannedEvent;
+import com.threedsoft.order.dto.events.SmallStoreOrderPlannedEvent;
+import com.threedsoft.order.dto.responses.OrderLineResourceDTO;
+import com.threedsoft.order.dto.responses.OrderResourceDTO;
+import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipLineCreationRequestDTO;
+import com.threedsoft.util.dto.events.EventResourceConverter;
 
 public class OrderToShipConverter {
 
 	public static ShipCreationRequestDTO getShipCreationRequestDTO(SmallStoreOrderPlannedEvent smallOrderPlannedEvent) {
-		ShipCreationRequestDTO shipCreationRequestDTO = getShipCreationRequestDTO(smallOrderPlannedEvent.getOrderDTO());
+		ShipCreationRequestDTO shipCreationRequestDTO = getShipCreationRequestDTO((OrderResourceDTO)smallOrderPlannedEvent.getEventResource());
 		return shipCreationRequestDTO;
 	}
 	public static ShipCreationRequestDTO getShipCreationRequestDTO(OrderPlannedEvent orderPlannedEvent) {
-		ShipCreationRequestDTO shipCreationRequestDTO = getShipCreationRequestDTO(orderPlannedEvent.getOrderDTO());
+		ShipCreationRequestDTO shipCreationRequestDTO = getShipCreationRequestDTO((OrderResourceDTO)EventResourceConverter
+				.getObject(orderPlannedEvent.getEventResource(), orderPlannedEvent.getEventResourceClassName()));
 		return shipCreationRequestDTO;
 	}
 	
-	public static ShipCreationRequestDTO getShipCreationRequestDTO(OrderDTO orderDTO) {
+	public static ShipCreationRequestDTO getShipCreationRequestDTO(OrderResourceDTO orderDTO) {
 		ShipCreationRequestDTO shipCreationRequestDTO = new ShipCreationRequestDTO();
 		shipCreationRequestDTO.setFirstName(orderDTO.getDelFirstName());
 		shipCreationRequestDTO.setLastName(orderDTO.getDelLastName());
@@ -45,7 +47,7 @@ public class OrderToShipConverter {
 		shipCreationRequestDTO.setDeliveryType(orderDTO.getDeliveryType());
 		shipCreationRequestDTO.setOrderId(orderDTO.getId());
 		List<ShipLineCreationRequestDTO> shipLines = new ArrayList();
-		for (OrderLineDTO orderLineDTO : orderDTO.getOrderLines()) {
+		for (OrderLineResourceDTO orderLineDTO : orderDTO.getOrderLines()) {
 			ShipLineCreationRequestDTO lineReq = new ShipLineCreationRequestDTO(orderLineDTO.getOrderLineNbr(),
 					orderLineDTO.getItemBrcd(), orderLineDTO.getOrderQty(), orderLineDTO.getItemWidth(),
 					orderLineDTO.getItemHeight(), orderLineDTO.getItemLength(), orderLineDTO.getItemUnitWt(),

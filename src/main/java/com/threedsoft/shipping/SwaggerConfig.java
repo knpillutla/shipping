@@ -1,4 +1,4 @@
-package com.example.shipping;
+package com.threedsoft.shipping;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

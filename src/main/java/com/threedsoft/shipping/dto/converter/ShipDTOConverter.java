@@ -1,4 +1,4 @@
-package com.example.shipping.dto.converter;
+package com.threedsoft.shipping.dto.converter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,24 +6,24 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.example.shipping.db.Ship;
-import com.example.shipping.db.ShipLine;
-import com.example.shipping.dto.requests.ShipCreationRequestDTO;
-import com.example.shipping.dto.requests.ShipLineCreationRequestDTO;
-import com.example.shipping.dto.requests.ShipUpdateRequestDTO;
-import com.example.shipping.dto.responses.ShipDTO;
-import com.example.shipping.dto.responses.ShipLineDTO;
+import com.threedsoft.shipping.db.Ship;
+import com.threedsoft.shipping.db.ShipLine;
+import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipLineCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipUpdateRequestDTO;
+import com.threedsoft.shipping.dto.responses.ShipLineResourceDTO;
+import com.threedsoft.shipping.dto.responses.ShipResourceDTO;
 
 @Component
 public class ShipDTOConverter {
 
-	public ShipDTO getShipDTO(Ship shipEntity) {
-		List<ShipLineDTO> shipLineDTOList = new ArrayList();
+	public ShipResourceDTO getShipDTO(Ship shipEntity) {
+		List<ShipLineResourceDTO> shipLineDTOList = new ArrayList();
 		for (ShipLine shipLine : shipEntity.getShipLines()) {
-			ShipLineDTO shipLineDTO = this.getShipLineDTO(shipLine);
+			ShipLineResourceDTO shipLineDTO = this.getShipLineDTO(shipLine);
 			shipLineDTOList.add(shipLineDTO);
 		}
-		ShipDTO shipDTO = new ShipDTO();
+		ShipResourceDTO shipDTO = new ShipResourceDTO();
 		shipDTO.setId(shipEntity.getId());
 		shipDTO.setBusName(shipEntity.getBusName());
 		shipDTO.setLocnNbr(shipEntity.getLocnNbr());
@@ -43,8 +43,8 @@ public class ShipDTOConverter {
 		return shipDTO;
 	}
 
-	public ShipLineDTO getShipLineDTO(ShipLine shipLine) {
-		ShipLineDTO shipLineDTO = new ShipLineDTO();
+	public ShipLineResourceDTO getShipLineDTO(ShipLine shipLine) {
+		ShipLineResourceDTO shipLineDTO = new ShipLineResourceDTO();
 		shipLineDTO.setId(shipLine.getId());
 		shipLineDTO.setShipLineNbr(shipLine.getShipLineNbr());
 		shipLineDTO.setItemBrcd(shipLine.getItemBrcd());

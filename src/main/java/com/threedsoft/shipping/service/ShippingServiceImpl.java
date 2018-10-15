@@ -1,4 +1,4 @@
-package com.example.shipping.service;
+package com.threedsoft.shipping.service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -8,18 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.shipping.db.Ship;
-import com.example.shipping.db.ShipLine;
-import com.example.shipping.db.ShipLineRepository;
-import com.example.shipping.db.ShipRepository;
-import com.example.shipping.dto.converter.ShipDTOConverter;
-import com.example.shipping.dto.events.ShipCreationFailedEvent;
-import com.example.shipping.dto.events.ShipRoutingCompletedEvent;
-import com.example.shipping.dto.events.ShipUpdateFailedEvent;
-import com.example.shipping.dto.requests.ShipCreationRequestDTO;
-import com.example.shipping.dto.requests.ShipUpdateRequestDTO;
-import com.example.shipping.dto.responses.ShipDTO;
-import com.example.util.service.EventPublisher;
+import com.threedsoft.shipping.db.Ship;
+import com.threedsoft.shipping.db.ShipLine;
+import com.threedsoft.shipping.db.ShipLineRepository;
+import com.threedsoft.shipping.db.ShipRepository;
+import com.threedsoft.shipping.dto.converter.ShipDTOConverter;
+import com.threedsoft.shipping.dto.events.ShipCreationFailedEvent;
+import com.threedsoft.shipping.dto.events.ShipRoutingCompletedEvent;
+import com.threedsoft.shipping.dto.events.ShipUpdateFailedEvent;
+import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipUpdateRequestDTO;
+import com.threedsoft.shipping.dto.responses.ShipResourceDTO;
+import com.threedsoft.shipping.util.ShippingConstants;
+import com.threedsoft.util.service.EventPublisher;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,8 +54,8 @@ public class ShippingServiceImpl implements ShippingService {
 
 	@Override
 	@Transactional
-	public ShipDTO updateShip(ShipUpdateRequestDTO shipUpdateRequestDTO) throws Exception {
-		ShipDTO shipDTO = null;
+	public ShipResourceDTO updateShip(ShipUpdateRequestDTO shipUpdateRequestDTO) throws Exception {
+		ShipResourceDTO shipDTO = null;
 		try {
 			Optional<Ship> shipOptional = shipDAO.findById(shipUpdateRequestDTO.getId());
 			if (!shipOptional.isPresent()) {
@@ -65,38 +66,38 @@ public class ShippingServiceImpl implements ShippingService {
 			shipEntity.setLabelZPL(RandomStringUtils.random(50));
 			shipEntity.setStatCode(ShipStatus.ROUTING_COMPLETED.getStatCode());
 			shipDTO = shipDTOConverter.getShipDTO(shipDAO.save(shipEntity));
-			eventPublisher.publish(new ShipRoutingCompletedEvent(shipDTO));
+			eventPublisher.publish(new ShipRoutingCompletedEvent(shipDTO,ShippingConstants.SHIPPING_SERVICE_NAME));
 		} catch (Exception ex) {
 			log.error("Update Ship Error:" + ex.getMessage(), ex);
 			eventPublisher
-					.publish(new ShipUpdateFailedEvent(shipUpdateRequestDTO, "Update Ship Error:" + ex.getMessage()));
+					.publish(new ShipUpdateFailedEvent(shipUpdateRequestDTO, ShippingConstants.SHIPPING_SERVICE_NAME,"Update Ship Error:" + ex.getMessage()));
 			throw ex;
 		}
 		return shipDTO;
 	}
 
 	@Override
-	public ShipDTO createShipForWarehouse(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
-		ShipDTO shipDTO = this.createShip(shipCreationRequestDTO);
+	public ShipResourceDTO createShipForWarehouse(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
+		ShipResourceDTO shipDTO = this.createShip(shipCreationRequestDTO);
 		// for the time being, both creation and routing are done at the same time until functionality is added.
 		ShipUpdateRequestDTO shipUpdateRequestDTO = new ShipUpdateRequestDTO();
 		shipUpdateRequestDTO.setId(shipDTO.getId());
-		ShipDTO updatedShipDTO = this.updateShip(shipUpdateRequestDTO);
+		ShipResourceDTO updatedShipDTO = this.updateShip(shipUpdateRequestDTO);
 		return updatedShipDTO;
 	}
 
 	@Override
-	public ShipDTO createShipForSmallStore(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
-		ShipDTO shipDTO = this.createShip(shipCreationRequestDTO);
+	public ShipResourceDTO createShipForSmallStore(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
+		ShipResourceDTO shipDTO = this.createShip(shipCreationRequestDTO);
 		ShipUpdateRequestDTO shipUpdateRequestDTO = new ShipUpdateRequestDTO();
 		shipUpdateRequestDTO.setId(shipDTO.getId());
-		ShipDTO updatedShipDTO = this.updateShip(shipUpdateRequestDTO);
+		ShipResourceDTO updatedShipDTO = this.updateShip(shipUpdateRequestDTO);
 		return updatedShipDTO;
 	}
 
 	@Transactional
-	public ShipDTO createShip(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
-		ShipDTO shipResponseDTO = null;
+	public ShipResourceDTO createShip(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
+		ShipResourceDTO shipResponseDTO = null;
 		try {
 			Ship ship = shipDTOConverter.getShipEntity(shipCreationRequestDTO);
 			ship.setStatCode(ShipStatus.CREATED.getStatCode());
@@ -106,14 +107,14 @@ public class ShippingServiceImpl implements ShippingService {
 		} catch (Exception ex) {
 			log.error("Created Ship Error:" + ex.getMessage(), ex);
 			eventPublisher.publish(
-					new ShipCreationFailedEvent(shipCreationRequestDTO, "Created Ship Error:" + ex.getMessage()));
+					new ShipCreationFailedEvent(shipCreationRequestDTO, ShippingConstants.SHIPPING_SERVICE_NAME,"Created Ship Error:" + ex.getMessage()));
 			throw ex;
 		}
 		return shipResponseDTO;
 	}
 
 	@Override
-	public ShipDTO findById(String busName, Integer locnNbr, Long id) throws Exception {
+	public ShipResourceDTO findById(String busName, Integer locnNbr, Long id) throws Exception {
 		Ship shipEntity = shipDAO.findById(busName, locnNbr, id);
 		return shipDTOConverter.getShipDTO(shipEntity);
 	}

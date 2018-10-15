@@ -1,4 +1,4 @@
-package com.example.shipping.endpoint.rest;
+package com.threedsoft.shipping.endpoint.rest;
 
 public class ErrorRestResponse {
 	int responseCode;
