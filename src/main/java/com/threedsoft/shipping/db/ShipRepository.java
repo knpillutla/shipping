@@ -29,4 +29,6 @@ public interface ShipRepository extends JpaRepository<Ship, Long>{
 	@Query("select o from Ship o where o.busName=:busName and o.locnNbr=:locnNbr order by o.id")
 	@BatchSize(size = 10)
 	public List<Ship> findByBusNameAndLocnNbrOrderByOrderId(@Param("busName") String busName, @Param("locnNbr") Integer locnNbr);
+
+	public List<Ship> findByBusNameAndLocnNbrOrderById(@Param("busName") String busName, @Param("locnNbr") Integer locnNbr);
 }

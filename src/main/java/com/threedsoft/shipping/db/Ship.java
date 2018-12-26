@@ -112,11 +112,18 @@ public class Ship  implements Serializable{
     String zipcode;
     @Column(name="DEL_PHONE_NBR")
     String phoneNbr;
-    @Column(name="INVOICE_ZPL")
-    String invoiceZPL;
-    @Column(name="LABEL_ZPL")
-    String labelZPL;
+    @Column(name="INVOICE_LABEL_FORMAT")
+    String invoiceLabelFormat;
+   
+    @Column(name="INVOICE_LABEL")
+    byte[] invoiceLabel;
+
+    @Column(name="SHIP_LABEL_FORMAT")
+    String shipLabelFormat;
     
+    @Column(name="SHIP_LABEL")
+    byte[] shipLabel;
+
     @Column(name="SOURCE")
 	String source;
 

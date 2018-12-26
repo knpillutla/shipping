@@ -1,10 +1,13 @@
 package com.threedsoft.shipping.service;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,7 @@ import com.threedsoft.shipping.dto.events.ShipCreationFailedEvent;
 import com.threedsoft.shipping.dto.events.ShipRoutingCompletedEvent;
 import com.threedsoft.shipping.dto.events.ShipUpdateFailedEvent;
 import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipSearchRequestDTO;
 import com.threedsoft.shipping.dto.requests.ShipUpdateRequestDTO;
 import com.threedsoft.shipping.dto.responses.ShipResourceDTO;
 import com.threedsoft.shipping.util.ShippingConstants;
@@ -38,19 +42,9 @@ public class ShippingServiceImpl implements ShippingService {
 
 	@Autowired
 	ShipDTOConverter shipDTOConverter;
-
-	public enum ShipStatus {
-		CREATED(100), ROUTING_COMPLETED(125), SHIPPED(160), CANCELLED(199);
-		ShipStatus(Integer statCode) {
-			this.statCode = statCode;
-		}
-
-		private Integer statCode;
-
-		public Integer getStatCode() {
-			return statCode;
-		}
-	}
+	
+	@Autowired
+	ShipEngineApi shipEngineApi;
 
 	@Override
 	@Transactional
@@ -62,9 +56,9 @@ public class ShippingServiceImpl implements ShippingService {
 				throw new Exception("Ship Update Failed. Ship Not found to update");
 			}
 			Ship shipEntity = shipOptional.get();
-			shipEntity.setInvoiceZPL(RandomStringUtils.random(50));
-			shipEntity.setLabelZPL(RandomStringUtils.random(50));
-			shipEntity.setStatCode(ShipStatus.ROUTING_COMPLETED.getStatCode());
+			//shipEntity.setInvoiceZPL(RandomStringUtils.random(50));
+			//shipEntity.setLabelZPL(RandomStringUtils.random(50));
+			shipEntity.setStatCode(ShippingStatus.ROUTING_COMPLETED.getStatCode());
 			shipDTO = shipDTOConverter.getShipDTO(shipDAO.save(shipEntity));
 			eventPublisher.publish(new ShipRoutingCompletedEvent(shipDTO,ShippingConstants.SHIPPING_SERVICE_NAME));
 		} catch (Exception ex) {
@@ -79,10 +73,12 @@ public class ShippingServiceImpl implements ShippingService {
 	@Override
 	public ShipResourceDTO createShipForWarehouse(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
 		ShipResourceDTO shipDTO = this.createShip(shipCreationRequestDTO);
+		
 		// for the time being, both creation and routing are done at the same time until functionality is added.
 		ShipUpdateRequestDTO shipUpdateRequestDTO = new ShipUpdateRequestDTO();
 		shipUpdateRequestDTO.setId(shipDTO.getId());
 		ShipResourceDTO updatedShipDTO = this.updateShip(shipUpdateRequestDTO);
+
 		return updatedShipDTO;
 	}
 
@@ -98,9 +94,17 @@ public class ShippingServiceImpl implements ShippingService {
 	@Transactional
 	public ShipResourceDTO createShip(ShipCreationRequestDTO shipCreationRequestDTO) throws Exception {
 		ShipResourceDTO shipResponseDTO = null;
+		String shippingLabelFormat = "pdf";
 		try {
 			Ship ship = shipDTOConverter.getShipEntity(shipCreationRequestDTO);
-			ship.setStatCode(ShipStatus.CREATED.getStatCode());
+			byte[] labelBytes = shipEngineApi.createAnDownloadNewShippingLabel(shippingLabelFormat);
+			
+			ship.setStatCode(ShippingStatus.CREATED.getStatCode());
+			ship.setShipLabelFormat(shippingLabelFormat);
+			ship.setShipLabel(labelBytes);
+			ship.setTrackingNbr("xxxxxxx");
+			ship.setShipCarrier("usps");
+			ship.setShipCarrierService("usps_priority_mail");
 			Ship savedShipObj = shipDAO.save(ship);
 			shipResponseDTO = shipDTOConverter.getShipDTO(savedShipObj);
 			//eventPublisher.publish(new ShipCreatedEvent(shipResponseDTO));
@@ -126,5 +130,27 @@ public class ShippingServiceImpl implements ShippingService {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public List<ShipResourceDTO> findByBusNameAndLocnNbr(String busName, Integer locnNbr) throws Exception {
+		List<Ship> shipEntityList = shipDAO.findByBusNameAndLocnNbrOrderById(busName, locnNbr);
+		List<ShipResourceDTO> shipResourceDTOList = new ArrayList();
+		for(Ship shipEntity : shipEntityList) {
+			shipResourceDTOList.add(shipDTOConverter.getShipDTO(shipEntity));
+		}
+		return shipResourceDTOList;
+	}
+
+	@Override
+	public List<ShipResourceDTO> searchShipping(ShipSearchRequestDTO shipSearchReq) {
+		PageRequest pageRequest = new PageRequest(0, 50);
+		Ship searchShip = shipDTOConverter.getShipEntityForSearch(shipSearchReq);
+		Page<Ship> shipEntityPage = shipDAO.findAll(Example.of(searchShip), pageRequest);
+		List<ShipResourceDTO> ShipDTOList = new ArrayList();
+		for(Ship shipEntity : shipEntityPage) {
+			ShipDTOList.add(shipDTOConverter.getShipDTO(shipEntity));
+		}
+		return ShipDTOList;
 	}
 }

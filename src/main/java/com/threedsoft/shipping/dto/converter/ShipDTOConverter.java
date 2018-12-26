@@ -10,6 +10,7 @@ import com.threedsoft.shipping.db.Ship;
 import com.threedsoft.shipping.db.ShipLine;
 import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
 import com.threedsoft.shipping.dto.requests.ShipLineCreationRequestDTO;
+import com.threedsoft.shipping.dto.requests.ShipSearchRequestDTO;
 import com.threedsoft.shipping.dto.requests.ShipUpdateRequestDTO;
 import com.threedsoft.shipping.dto.responses.ShipLineResourceDTO;
 import com.threedsoft.shipping.dto.responses.ShipResourceDTO;
@@ -40,6 +41,12 @@ public class ShipDTOConverter {
 		shipDTO.setShipCost(shipEntity.getShipCost());
 		shipDTO.setTrackingNbr(shipEntity.getTrackingNbr());
 		shipDTO.setOrderId(shipEntity.getOrderId());
+		shipDTO.setOrderNbr(shipEntity.getOrderNbr());
+		shipDTO.setDeliveryType(shipEntity.getDeliveryType());
+		shipDTO.setShipLabelFormat(shipEntity.getShipLabelFormat());
+		shipDTO.setShipLabel(shipEntity.getShipLabel());
+		shipDTO.setInvoiceLabelFormat(shipEntity.getInvoiceLabelFormat());
+		shipDTO.setInvoiceLabel(shipEntity.getInvoiceLabel());
 		return shipDTO;
 	}
 
@@ -60,6 +67,15 @@ public class ShipDTOConverter {
 		return shipLineDTO;
 	}
 
+	public Ship getShipEntityForSearch(ShipSearchRequestDTO invnSearchReq) {
+		Ship shipEntity = new Ship();
+		shipEntity.setBusName(invnSearchReq.getBusName());
+		shipEntity.setLocnNbr(invnSearchReq.getLocnNbr());
+		shipEntity.setBusUnit(invnSearchReq.getBusUnit());
+		shipEntity.setTrackingNbr(invnSearchReq.getTrackingNbr());
+		shipEntity.setOrderNbr(invnSearchReq.getOrderNbr());
+		return shipEntity;
+	}	
 	public Ship getShipEntity(ShipCreationRequestDTO shipCreationRequestDTO) {
 		Ship shipEntity = new Ship();
 		shipEntity.setFirstName(shipCreationRequestDTO.getFirstName());
