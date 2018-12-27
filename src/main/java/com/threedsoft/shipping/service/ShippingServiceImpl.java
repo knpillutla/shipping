@@ -172,13 +172,13 @@ public class ShippingServiceImpl implements ShippingService {
 
 				// If designation is specified in filter, add equal where clause
 				if (filter.getOrderNbr() != null) {
-					predicates.add(cb.like(cb.lower(root.get("orderNbr")), 
+					predicates.add(cb.like(root.get("orderNbr"), 
                                                     "%" + filter.getOrderNbr() + "%"));
 				}
 				// If firstName is specified in filter, add contains (lile)
 				// filter to where clause with ignore case
 				if (filter.getTrackingNbr() != null) {
-					predicates.add(cb.like(cb.lower(root.get("trackingNbr")), 
+					predicates.add(cb.like(root.get("trackingNbr"), 
                                                     "%" + filter.getTrackingNbr() + "%"));
 				}
 				return cb.and(predicates.toArray(new Predicate[0]));
