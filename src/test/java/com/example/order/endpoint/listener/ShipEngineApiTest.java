@@ -18,7 +18,7 @@ public class ShipEngineApiTest {
 	@Autowired
 	private ShipEngineApi shipEngineApi;
 
-	//@Test
+	@Test
 	@SuppressWarnings("unchecked")
 	public void testCreateNewLabel() {
 		shipEngineApi = new ShipEngineApi();

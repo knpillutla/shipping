@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.hibernate.annotations.BatchSize;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShipRepository extends JpaRepository<Ship, Long>{
+public interface ShipRepository extends JpaRepository<Ship, Long>, JpaSpecificationExecutor{
 
 	@Query("select o from Ship o where o.busName=:busName and o.locnNbr=:locnNbr and o.id=:id")
 	public Ship findById(@Param("busName") String busName, @Param("locnNbr") Integer locnNbr, @Param("id") Long id);

@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -142,7 +148,7 @@ public class ShippingServiceImpl implements ShippingService {
 		return shipResourceDTOList;
 	}
 
-	@Override
+/*	@Override
 	public List<ShipResourceDTO> searchShipping(ShipSearchRequestDTO shipSearchReq) {
 		PageRequest pageRequest = new PageRequest(0, 50);
 		Ship searchShip = shipDTOConverter.getShipEntityForSearch(shipSearchReq);
@@ -153,4 +159,35 @@ public class ShippingServiceImpl implements ShippingService {
 		}
 		return ShipDTOList;
 	}
+	*/
+	@Override
+	public List<ShipResourceDTO> searchShipping(ShipSearchRequestDTO filter) {
+
+		List<Ship> searchShipList = shipDAO.findAll(new Specification<Ship>() {
+
+			@Override
+			public Predicate toPredicate(Root<Ship> root, CriteriaQuery< ?> query, CriteriaBuilder cb) {
+
+				List<Predicate> predicates = new ArrayList<>();
+
+				// If designation is specified in filter, add equal where clause
+				if (filter.getOrderNbr() != null) {
+					predicates.add(cb.like(cb.lower(root.get("orderNbr")), 
+                                                    "%" + filter.getOrderNbr() + "%"));
+				}
+				// If firstName is specified in filter, add contains (lile)
+				// filter to where clause with ignore case
+				if (filter.getTrackingNbr() != null) {
+					predicates.add(cb.like(cb.lower(root.get("trackingNbr")), 
+                                                    "%" + filter.getTrackingNbr() + "%"));
+				}
+				return cb.and(predicates.toArray(new Predicate[0]));
+			}
+		});
+		List<ShipResourceDTO> ShipDTOList = new ArrayList();
+		for(Ship shipEntity : searchShipList) {
+			ShipDTOList.add(shipDTOConverter.getShipDTO(shipEntity));
+		}
+		return ShipDTOList;
+	}	
 }

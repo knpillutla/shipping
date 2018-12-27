@@ -1,9 +1,6 @@
 package com.threedsoft.shipping.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.threedsoft.shipping.dto.responses.ShipResourceDTO;
 import com.threedsoft.shipping.service.shipengine.dto.Address;
+import com.threedsoft.shipping.service.shipengine.dto.RateOptions;
 import com.threedsoft.shipping.service.shipengine.dto.ShipLabelRequest;
 import com.threedsoft.shipping.service.shipengine.dto.Shipment;
 import com.threedsoft.shipping.service.shipengine.dto.Weight;
@@ -55,7 +53,8 @@ public class ShipEngineApi {
 		shipLabelReq.setLabel_format(labelType);
 		
 		Shipment shipment = new Shipment();
-		shipment.setService_code("usps_priority_mail");
+		//shipment.setCarrier_id("se-123890");
+		shipment.setService_code("usps_priority_mail_express"); //"usps_priority_mail");
 		shipment.setShip_from(new Address("Shippy","512-485-4282","the3dsoft","1348 dukes creek dr","","kennesaw","GA","30152","US","No"));
 		shipment.setShip_to(new Address("Mickey and Minnie Mouse","+1 (714) 781-4565","The Walt Disney Company","500 South Buena Vista Street","","Burbank","CA","91521","US","No"));
 		//shipment.setShip_to(new Address("Shippy","512-485-4282","the3dsoft","1348 dukes creek dr","","kennesaw","GA","30152","US","N"));
@@ -132,4 +131,10 @@ public class ShipEngineApi {
 
 	    return output;
 	}
-*/}
+*/
+	public void getRates(Shipment shipment, List<String> carrierIds, boolean validateAddress) {
+		RateOptions rateOptions = new RateOptions(carrierIds);
+		shipment.setRate_options(rateOptions);
+		shipment.setIsValidateAddress(validateAddress);
+	}
+}

@@ -72,5 +72,72 @@ CREATE TABLE SHIP_LINES
     VERSION INTEGER
 );
 
+CREATE TABLE CARRIER
+(
+    ID serial primary key,
+    SHIP_CARRIER_ID character varying(50),
+    SHIP_CARRIER_CODE character varying(50),
+	SOURCE character varying(50),
+	TRANSACTION_NAME character varying(50),
+	REF_FIELD_1  character varying(50),
+	REF_FIELD_2  character varying(50),
+	HOST_NAME  character varying(50),
+    CREATED_DTTM  timestamp not null default NOW(),
+    UPDATED_DTTM  timestamp not null default NOW(),
+    CREATED_BY character varying(25),
+    UPDATED_BY character varying(25),
+    VERSION INTEGER
+);
 
+CREATE TABLE CARRIER_SERVICES
+(
+    ID serial primary key,
+    CARRIER_ID integer not null REFERENCES CARRIER (ID),
+    SERVICE_CODE character varying(50),
+    DOMESTIC  character varying(50),
+    INTERNATIONAL  character varying(50),
+ 	SOURCE character varying(50),
+	TRANSACTION_NAME character varying(50),
+	REF_FIELD_1  character varying(50),
+	REF_FIELD_2  character varying(50),
+	HOST_NAME  character varying(50),
+    CREATED_DTTM  timestamp not null default NOW(),
+    UPDATED_DTTM  timestamp not null default NOW(),
+    CREATED_BY character varying(25),
+    UPDATED_BY character varying(25),
+    VERSION INTEGER
+);
 
+CREATE TABLE FACILITY_CARRIER
+(
+    ID serial primary key,
+    CARRIER_ID integer not null REFERENCES CARRIER (ID),
+    ACCOUNT_NBR character varying(50),
+	SOURCE character varying(50),
+	TRANSACTION_NAME character varying(50),
+	REF_FIELD_1  character varying(50),
+	REF_FIELD_2  character varying(50),
+	HOST_NAME  character varying(50),
+    CREATED_DTTM  timestamp not null default NOW(),
+    UPDATED_DTTM  timestamp not null default NOW(),
+    CREATED_BY character varying(25),
+    UPDATED_BY character varying(25),
+    VERSION INTEGER
+);
+
+CREATE TABLE FACILITY_CARRIER_SERVICES
+(
+    ID serial primary key,
+    FACILITY_CARRIER_ID INTEGER not null REFERENCES FACILITY_CARRIER (ID),
+    SERVICE_CODE character varying(50),
+	SOURCE character varying(50),
+	TRANSACTION_NAME character varying(50),
+	REF_FIELD_1  character varying(50),
+	REF_FIELD_2  character varying(50),
+	HOST_NAME  character varying(50),
+    CREATED_DTTM  timestamp not null default NOW(),
+    UPDATED_DTTM  timestamp not null default NOW(),
+    CREATED_BY character varying(25),
+    UPDATED_BY character varying(25),
+    VERSION INTEGER
+);
