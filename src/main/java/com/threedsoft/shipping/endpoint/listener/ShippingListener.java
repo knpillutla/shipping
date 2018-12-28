@@ -7,8 +7,8 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 
 import com.threedsoft.order.dto.events.OrderPlannedEvent;
-import com.threedsoft.shipping.dto.converter.OrderToShipConverter;
 import com.threedsoft.shipping.service.ShippingService;
+import com.threedsoft.shipping.service.mapper.OrderToShipConverter;
 import com.threedsoft.shipping.streams.ShippingStreams;
 
 import lombok.extern.slf4j.Slf4j;

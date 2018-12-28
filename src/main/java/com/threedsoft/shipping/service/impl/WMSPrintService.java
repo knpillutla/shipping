@@ -1,4 +1,4 @@
-package com.threedsoft.shipping.service;
+package com.threedsoft.shipping.service.impl;
 
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;

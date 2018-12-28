@@ -1,4 +1,4 @@
-package com.threedsoft.shipping.service;
+package com.threedsoft.shipping.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ import com.threedsoft.shipping.db.Ship;
 import com.threedsoft.shipping.db.ShipLine;
 import com.threedsoft.shipping.db.ShipLineRepository;
 import com.threedsoft.shipping.db.ShipRepository;
-import com.threedsoft.shipping.dto.converter.ShipDTOConverter;
 import com.threedsoft.shipping.dto.events.ShipCreationFailedEvent;
 import com.threedsoft.shipping.dto.events.ShipRoutingCompletedEvent;
 import com.threedsoft.shipping.dto.events.ShipUpdateFailedEvent;
@@ -29,6 +28,9 @@ import com.threedsoft.shipping.dto.requests.ShipCreationRequestDTO;
 import com.threedsoft.shipping.dto.requests.ShipSearchRequestDTO;
 import com.threedsoft.shipping.dto.requests.ShipUpdateRequestDTO;
 import com.threedsoft.shipping.dto.responses.ShipResourceDTO;
+import com.threedsoft.shipping.service.ShippingService;
+import com.threedsoft.shipping.service.ShippingStatus;
+import com.threedsoft.shipping.service.mapper.ShipDTOConverter;
 import com.threedsoft.shipping.util.ShippingConstants;
 import com.threedsoft.util.service.EventPublisher;
 

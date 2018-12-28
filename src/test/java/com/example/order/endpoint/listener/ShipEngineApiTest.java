@@ -8,8 +8,8 @@ import java.io.OutputStream;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.threedsoft.shipping.service.ShipEngineApi;
-import com.threedsoft.shipping.service.WMSPrintService;
+import com.threedsoft.shipping.service.impl.ShipEngineApi;
+import com.threedsoft.shipping.service.impl.WMSPrintService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,7 @@ public class ShipEngineApiTest {
 	@Autowired
 	private ShipEngineApi shipEngineApi;
 
-	@Test
+	//@Test
 	@SuppressWarnings("unchecked")
 	public void testCreateNewLabel() {
 		shipEngineApi = new ShipEngineApi();

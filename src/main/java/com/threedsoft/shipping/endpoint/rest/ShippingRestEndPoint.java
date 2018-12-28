@@ -96,7 +96,7 @@ public class ShippingRestEndPoint {
 		}
 	}
 
-	@PutMapping("/{busName}/{locnNbr}/ships/smallstore")
+	@PostMapping("/{busName}/{locnNbr}/ships/smallstore")
 	public ResponseEntity createShipForSmallStore(@PathVariable("busName") String busName,
 			@PathVariable("locnNbr") Integer locnNbr, @RequestBody ShipCreationRequestDTO shipCreationReq)
 			throws IOException {
@@ -118,7 +118,7 @@ public class ShippingRestEndPoint {
 		return resEntity;
 	}
 
-	@PutMapping("/{busName}/{locnNbr}/ships/warehouse")
+	@PostMapping("/{busName}/{locnNbr}/ships/warehouse")
 	public ResponseEntity createShipForWarehouse(@PathVariable("busName") String busName,
 			@PathVariable("locnNbr") Integer locnNbr, @RequestBody ShipCreationRequestDTO shipCreationReq)
 			throws IOException {

@@ -77,6 +77,7 @@ CREATE TABLE CARRIER
     ID serial primary key,
     SHIP_CARRIER_ID character varying(50),
     SHIP_CARRIER_CODE character varying(50),
+    SHIP_CARRIER_NAME character varying(50),
 	SOURCE character varying(50),
 	TRANSACTION_NAME character varying(50),
 	REF_FIELD_1  character varying(50),
@@ -111,8 +112,11 @@ CREATE TABLE CARRIER_SERVICES
 CREATE TABLE FACILITY_CARRIER
 (
     ID serial primary key,
-    CARRIER_ID integer not null REFERENCES CARRIER (ID),
+    BUS_NAME character varying(50),
+	LOCN_NBR integer not null default 0,
+    CARRIER_CODE character varying(50),
     ACCOUNT_NBR character varying(50),
+    ENABLED character varying(1),
 	SOURCE character varying(50),
 	TRANSACTION_NAME character varying(50),
 	REF_FIELD_1  character varying(50),
