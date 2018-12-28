@@ -43,7 +43,7 @@ public class FacilityCarrier  implements Serializable{
 	String carrierCode;
 
 	@Column(name="ACCOUNT_NBR")
-	String accounNbr;
+	String accountNbr;
 
 	@Column(name="ENABLED")
 	String isEnabled;
