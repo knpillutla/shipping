@@ -1,0 +1,127 @@
+application {
+  config {
+    baseName shipping,
+    packageName com.threedsoft.shipping,
+	authenticationType false,
+    applicationType microservice,
+	skipUserManagement true,
+    prodDatabaseType postgresql,
+	cacheProvider no,
+	devDatabaseType postgresql,
+    serverPort 6787, 
+	messageBroker kafka,
+	enableSwaggerCodegen true,
+    searchEngine false,
+    serviceDiscoveryType no,
+    testFrameworks []
+  }
+  entities Ship, ShipLines, FacilityCarrier
+}
+
+deployment {
+    deploymentType kubernetes,
+    monitoring no,
+	consoleOptions [],
+    serviceDiscoveryType no,
+	dockerRepositoryName "gcr.io/lustrous-bounty-224202",
+	dockerPushCommand "docker push",
+    kubernetesServiceType NodePort
+}
+entity Ship {
+    busName String required,
+    facilityNbr String required,
+	company String,
+	division String,
+	busUnit String,
+	batchNbr String,
+	packageNbr String,
+	orderId String,
+	orderNbr String,
+	statCode String,
+	orderDttm ZonedDateTime required,
+	shipByDttm ZonedDateTime required,
+	expectedDeliveryDttm ZonedDateTime required,
+	deliveryType String,
+	shipCarrier String,
+	shipCarrierService String,
+	trackingNbr String,
+	shipCost String,
+	delFirstName String,
+	delLastName String,
+	delMiddltName String,
+	delAddr1 String,
+	delAddr2 String,
+	delAddr3 String,
+	delCity String,
+	delState String,
+	delCountry String,
+	delZipCode String,
+	delPhoneNbr String,
+	invoiceLabel Blob,
+	shippingLabel Blob,
+	source String,
+	transactionName String,
+	refField1 String,
+	refField2 String,
+	createdDttm ZonedDateTime required,
+	updatedDttm ZonedDateTime required,
+	createdBy String,
+	updatedBy String,
+	version Long
+	
+}
+
+entity ShipLines {
+    lineNbr Long required,
+	itemBrcd String required,
+	qty Long required,
+	itemWidth Long required,
+	itemHeight Long required,
+	itemLength Long required,
+	itemUnitWt Long required,
+	itemUnitVol Long required,
+	source String,
+	transactionName String,
+	refField1 String,
+	refField2 String,
+	createdDttm ZonedDateTime required,
+	updatedDttm ZonedDateTime required,
+	createdBy String,
+	updatedBy String,
+	version Long
+}
+
+entity FacilityCarrier {
+    busName String required,
+    facilityNbr String required,
+    carrierCode String required,
+	accountNbr String required,
+	isEnabled String required,
+	source String,
+	transactionName String,
+	refField1 String,
+	refField2 String,
+	createdDttm ZonedDateTime required,
+	updatedDttm ZonedDateTime required,
+	createdBy String,
+	updatedBy String,
+	version Long
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Ship{shipLines} to ShipLines
+}
+
+paginate * with infinite-scroll
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+
+
+
+
+

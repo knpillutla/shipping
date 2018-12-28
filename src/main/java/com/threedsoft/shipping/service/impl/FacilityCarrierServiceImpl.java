@@ -42,9 +42,22 @@ public class FacilityCarrierServiceImpl implements FacilityCarrierService {
      */
     @Override
     public FacilityCarrierDTO save(FacilityCarrierDTO facilityCarrierDTO) {
-        log.debug("Request to save FacilityCarrier : {}", facilityCarrierDTO);
-
-        FacilityCarrier facilityCarrier = facilityCarrierMapper.toEntity(facilityCarrierDTO);
+        log.info("Request to save FacilityCarrier : {}", facilityCarrierDTO);
+        FacilityCarrier facilityCarrier = null;
+        
+        if(facilityCarrierDTO.getId() != null) {
+        	Optional<FacilityCarrier> optional = facilityCarrierRepository.findById(facilityCarrierDTO.getId());
+        	if(optional.isPresent()) {
+        		facilityCarrier = optional.get();
+        	}
+        }
+        if(facilityCarrier != null) {
+        	facilityCarrier.setAccountNbr(facilityCarrierDTO.getAccountNbr());
+        	facilityCarrier.setIsEnabled(facilityCarrierDTO.getIsEnabled());
+        	facilityCarrier.setCarrierCode(facilityCarrierDTO.getCarrierCode());
+        }else {
+        	facilityCarrier = facilityCarrierMapper.toEntity(facilityCarrierDTO);
+        }
         facilityCarrier = facilityCarrierRepository.save(facilityCarrier);
         return facilityCarrierMapper.toDto(facilityCarrier);
     }
